@@ -263,7 +263,7 @@ public class ResultBuilder {
     public void logUnitTests(Map<String, String> unitTests) {
         Map<String, String> unitTestsNormalized = new HashMap<>();
         for (String uniqueId : unitTests.keySet()) {
-            unitTestsNormalized.put(uniqueId, normalizeName(unitTests.get(uniqueId)));
+            unitTestsNormalized.put(uniqueId, normalizeName(uniqueId));
         }
         this.qualityResult.setUnitTests(unitTestsNormalized);
     }
@@ -300,7 +300,11 @@ public class ResultBuilder {
     private String normalizeName(String name) {
         String normalizedName = name;
 
-        // parameterized unit test
+        // @Test
+        if (name.contains("method:")) {
+            normalizedName = name.split("method:")[1].split("\\(")[0];
+        }
+        // @ParameterizedTest
         if (name.contains("test-template:")) {
             normalizedName = name.split("test-template:")[1].split("\\(")[0]
                     + " (" + name.split("test-template-invocation:#")[1].split("]")[0] + ")";

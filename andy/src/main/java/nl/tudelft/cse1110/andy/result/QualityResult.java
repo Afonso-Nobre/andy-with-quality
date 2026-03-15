@@ -90,17 +90,18 @@ public class QualityResult {
 
         for (TestFailureInfo failure : metaTestReport.getTestsTriggered()) {
             String test = failure.getTestCase();
-            if (testToMetaTests.get(test) == null) {
-                testToMetaTests.put(test, new HashSet<>());
-            }
+            if (test.endsWith("()")) test = test.substring(0, test.length() - 2);
+
+            testToMetaTests.computeIfAbsent(test, k -> new HashSet<>());
 
             String testName = metaTestReport.getName();
 
-            if (testName.matches(".* \\(\\d+\\)")) {
-                String method = testName.replaceAll(" \\(\\d+\\)$", "").trim();
-                String invocation = testName.replaceAll(".* \\((\\d+)\\)$", "($1)").trim();
-                testName = method + " " + invocation;
-            }
+//            if (testName.matches(".* \\(\\d+\\)")) {
+//                String method = testName.replaceAll(" \\(\\d+\\)$", "").trim();
+//                String invocation = testName.replaceAll(".* \\((\\d+)\\)$", "($1)").trim();
+//                testName = method + " " + invocation;
+//            }
+
             testToMetaTests.get(test).add(testName);
         }
     }
@@ -138,12 +139,11 @@ public class QualityResult {
             // All tests that trigger this meta-test collide with each other
             List<String> collidingTests = metaTestReport.getTestsTriggered().stream()
                     .map(TestFailureInfo::getTestCase)
+                    .map(test -> test.endsWith("()") ? test.substring(0, test.length() - 2) : test)
                     .toList();
 
             for (String test : collidingTests) {
-                nonisolatedTests.computeIfAbsent(test, t -> {
-                    return new HashSet<>();
-                        })
+                nonisolatedTests.computeIfAbsent(test, t -> new HashSet<>())
                         .addAll(collidingTests.stream()
                                 .filter(other -> !other.equals(test))
                                 .collect(Collectors.toSet()));

@@ -88,6 +88,10 @@ public class OverviewQualityResults extends BaseMetaTestsTest {
     static Stream<Arguments> testSuites() {
         return Stream.of(
                 Arguments.of("NumberUtilsAddLibrary", "NumberUtilsAddOfficialSolution", "NumberUtilsAddConfiguration")
+                // Arguments.of("ContainsAnyLibrary", "ContainsAnyOfficialSolution", "ContainsAnyConfiguration")
+                // Arguments.of("LastIndexOfLibrary", "LastIndexOfOfficialSolution", "LastIndexOfConfiguration")
+                // Arguments.of("IsSortedLibrary", "IsSortedOfficialSolution", "IsSortedConfiguration")
+                // Arguments.of("AutoAssignStudentsLibrary", "AutoAssignStudentsOfficialSolution", "AutoAssignStudentsConfiguration")
         );
     }
 }

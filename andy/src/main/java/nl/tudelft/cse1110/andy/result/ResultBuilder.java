@@ -263,37 +263,25 @@ public class ResultBuilder {
     public void logUnitTests(Map<String, String> unitTests) {
         Map<String, String> unitTestsNormalized = new HashMap<>();
         for (String uniqueId : unitTests.keySet()) {
-
-            String displayName = unitTests.get(uniqueId);
-
-            if (displayName.matches(".*\\(.*\\).*\\[\\d+\\].*")) {
-                String method = displayName.replaceAll("\\(.*", "").trim();
-                String invocation = displayName.replaceAll(".*?\\[(\\d+)\\].*", "($1)").trim();
-                displayName = method + " " + invocation;
-            }
-
-            unitTestsNormalized.put(uniqueId, displayName);
+            unitTestsNormalized.put(uniqueId, normalizeName(uniqueId));
         }
         this.qualityResult.setUnitTests(unitTestsNormalized);
     }
 
     public void logCoveragePerTest(Map<String, Set<Integer>> coveragePerTest) {
-        this.qualityResult.setCoveragePerTest(coveragePerTest);
+        Map<String, Set<Integer>> coveragePerTestNormalized = new HashMap<>();
+        for (String testName : coveragePerTest.keySet()) {
+            Set<Integer> lines = coveragePerTest.get(testName);
+            coveragePerTestNormalized.put(normalizeName(testName), lines);
+        }
+        this.qualityResult.setCoveragePerTest(coveragePerTestNormalized);
     }
 
     public void logMutationsKilledPerTest(Map<String, Set<Integer>> mutationsKilledPerTest) {
         Map<String, Set<Integer>> mutationsKilledPerTestNormalized = new HashMap<>();
         for (String testName : mutationsKilledPerTest.keySet()) {
-            if (testName.contains("[test-template:")) {
-
-                Set<Integer> mutations = mutationsKilledPerTest.get(testName);
-
-                String method = testName.replaceAll(".*\\[test-template:([^(]+).*", "$1").trim();
-                String invocation = testName.replaceAll(".*\\[test-template-invocation:#(\\d+)\\].*", "($1)").trim();
-                String normalizedName = method + " " + invocation;
-
-                mutationsKilledPerTestNormalized.put(normalizedName, mutations);
-            }
+            Set<Integer> mutations = mutationsKilledPerTest.get(testName);
+            mutationsKilledPerTestNormalized.put(normalizeName(testName), mutations);
         }
         this.qualityResult.setMutationsKilledPerTest(mutationsKilledPerTestNormalized);
     }
@@ -307,6 +295,22 @@ public class ResultBuilder {
         }
         metaTestReport.setName(normalizedName);
         this.qualityResult.considerMetaTest(metaTestReport);
+    }
+
+    private String normalizeName(String name) {
+        String normalizedName = name;
+
+        // @Test
+        if (name.contains("method:")) {
+            normalizedName = name.split("method:")[1].split("\\(")[0];
+        }
+        // @ParameterizedTest
+        if (name.contains("test-template:")) {
+            normalizedName = name.split("test-template:")[1].split("\\(")[0]
+                    + " (" + name.split("test-template-invocation:#")[1].split("]")[0] + ")";
+        }
+
+        return normalizedName;
     }
 
     /*

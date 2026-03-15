@@ -106,7 +106,6 @@ public class CollectCoverageInformationStep implements ExecutionStep {
 
         for (Map.Entry<String, String> entry : tests.entrySet()) {
             String uniqueId = entry.getKey();
-            String displayName = entry.getValue();
 
             // 1. Fresh runtime + data for this test
             IRuntime runtime = new LoggerRuntime();
@@ -138,9 +137,9 @@ public class CollectCoverageInformationStep implements ExecutionStep {
                 }
             }
 
-            Set<Integer> coveredLines = extractCoveredLines(coverageBuilder, testClass);
+            Set<Integer> coveredLines = extractCoveredLines(coverageBuilder);
 
-            coveragePerTest.put(displayName, coveredLines);
+            coveragePerTest.put(uniqueId, coveredLines);
         }
 
         // Restore original instrumented classloader for the rest of the pipeline
@@ -159,17 +158,15 @@ public class CollectCoverageInformationStep implements ExecutionStep {
     }
 
     private Set<Integer> extractCoveredLines(
-            CoverageBuilder coverageBuilder,
-            String testClass) {
+            CoverageBuilder coverageBuilder) {
 
         Set<Integer> result = new HashSet<>();
 
         for (IClassCoverage cc : coverageBuilder.getClasses()) {
-            String className = cc.getName().replace('/', '.').concat("Tests");
-
-            if (!className.equals(testClass)) {
-                continue;
-            }
+//            THIS CHECK IS OBSOLETE
+//            if (!className.equals(testClass)) {
+//                continue;
+//            }
 
             for (int line = cc.getFirstLine(); line <= cc.getLastLine(); line++) {
                 ILine l = cc.getLine(line);

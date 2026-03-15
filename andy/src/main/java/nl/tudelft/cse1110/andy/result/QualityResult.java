@@ -11,10 +11,10 @@ public class QualityResult {
     private Map<String, String> unitTests; // uniqueId (testId below) -> displayName
 
     private LinkedList<MetaTestReport> metaTestReports;
-    private Map<String, Set<String>> testToMetaTests; // a useful mapping from the test cases to the meta-tests they cover
+    private Map<String, Set<String>> testToMetaTests; // displayName -> meta-tests
 
-    private Map<String, Set<Integer>> coveragePerTest; // testId -> linesCovered
-    private Map<String, Set<Integer>> mutationsKilledPerTest; // testId -> mutationId
+    private Map<String, Set<Integer>> coveragePerTest; // displayName -> linesCovered
+    private Map<String, Set<Integer>> mutationsKilledPerTest; // displayName -> mutationId
 
     public QualityResult(int numUnitTests) {
         // dummy:
@@ -22,6 +22,8 @@ public class QualityResult {
         this.numUnitTests = numUnitTests;
         metaTestReports  = new LinkedList<>();
         testToMetaTests  = new HashMap<>();
+        coveragePerTest  = new HashMap<>();
+        mutationsKilledPerTest = new HashMap<>();
     }
 
     public static QualityResult build(int score) {
@@ -96,7 +98,7 @@ public class QualityResult {
 
             if (testName.matches(".* \\(\\d+\\)")) {
                 String method = testName.replaceAll(" \\(\\d+\\)$", "").trim();
-                String invocation = testName.replaceAll(".* \\((\\d+)\\)$", "#$1").trim();
+                String invocation = testName.replaceAll(".* \\((\\d+)\\)$", "($1)").trim();
                 testName = method + " " + invocation;
             }
             testToMetaTests.get(test).add(testName);
@@ -230,7 +232,7 @@ public class QualityResult {
 
         StringBuilder sb = new StringBuilder("Tests that do not trigger meta-tests already covered by other tests: \n");
 
-        for (String testName : unitTests.values()) {
+        for (String testName : testToMetaTests.keySet()) {
             if (nonisolatedTests.containsKey(testName)) {
                 sb.append("  > " + testName + " ✕ - ");
                 Set<String> collisions =  nonisolatedTests.get(testName);
@@ -254,7 +256,7 @@ public class QualityResult {
 
         StringBuilder sb = new StringBuilder("Tests that increase a metric: \n");
 
-        for (String testName : unitTests.values()) {
+        for (String testName : testToMetaTests.keySet()) {
             if (contributingTests.containsKey(testName)) {
                 sb.append("  > " + testName + " ✓ - ");
                 List<Integer> contributions =  contributingTests.get(testName);

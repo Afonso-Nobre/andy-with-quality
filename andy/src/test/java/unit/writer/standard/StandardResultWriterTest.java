@@ -50,6 +50,8 @@ public class StandardResultWriterTest {
         when(ctx.getDirectoryConfiguration()).thenReturn(dirs);
         when(asciiArtGenerator.getRandomAsciiArt()).thenReturn("random ascii art");
         when(codeSnippetGenerator.generateCodeSnippetFromSolution(any(), anyInt())).thenReturn("arbitrary code snippet");
+        ModeActionSelector mas = new ModeActionSelector(Mode.PRACTICE, Action.TESTS);
+        when(ctx.getModeActionSelector()).thenReturn(mas);
     }
 
     @BeforeEach

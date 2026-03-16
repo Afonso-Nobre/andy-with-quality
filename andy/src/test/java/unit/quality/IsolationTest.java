@@ -1,4 +1,4 @@
-package integration.quality;
+package unit.quality;
 
 import nl.tudelft.cse1110.andy.execution.metatest.MetaTestReport;
 import nl.tudelft.cse1110.andy.result.QualityResult;

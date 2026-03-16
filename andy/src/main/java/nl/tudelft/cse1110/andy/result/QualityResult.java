@@ -20,6 +20,7 @@ public class QualityResult {
         // dummy:
         this.score = 0;
         this.numUnitTests = numUnitTests;
+        unitTests = new HashMap<>();
         metaTestReports  = new LinkedList<>();
         testToMetaTests  = new HashMap<>();
         coveragePerTest  = new HashMap<>();
@@ -96,12 +97,6 @@ public class QualityResult {
 
             String testName = metaTestReport.getName();
 
-//            if (testName.matches(".* \\(\\d+\\)")) {
-//                String method = testName.replaceAll(" \\(\\d+\\)$", "").trim();
-//                String invocation = testName.replaceAll(".* \\((\\d+)\\)$", "($1)").trim();
-//                testName = method + " " + invocation;
-//            }
-
             testToMetaTests.get(test).add(testName);
         }
     }
@@ -150,7 +145,7 @@ public class QualityResult {
             }
         }
 
-        int count = unitTests.size();
+        int count = numUnitTests;
 
         for (Set<String> collisions : nonisolatedTests.values()) {
             if (!collisions.isEmpty()) count--;

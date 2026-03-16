@@ -84,7 +84,7 @@ public class OverviewQualityResults extends BaseMetaTestsTest {
 
     static Stream<Arguments> domainTestingTestSuites() {
         return Stream.of(
-                // Arguments.of("NumberUtilsAddLibrary", "NumberUtilsAddOfficialSolution", "NumberUtilsAddConfiguration")
+                Arguments.of("NumberUtilsAddLibrary", "NumberUtilsAddOfficialSolution", "NumberUtilsAddConfiguration")
                 // ## Week 1
                 // Arguments.of("ContainsAnyLibrary", "ContainsAnyOfficialSolution", "ContainsAnyConfiguration")
                 // Arguments.of("LastIndexOfLibrary", "LastIndexOfOfficialSolution", "LastIndexOfConfiguration")

@@ -6,19 +6,16 @@ import nl.tudelft.cse1110.andy.execution.Context.Context;
 import nl.tudelft.cse1110.andy.execution.mode.Action;
 import nl.tudelft.cse1110.andy.execution.mode.Mode;
 import nl.tudelft.cse1110.andy.execution.mode.ModeActionSelector;
-import nl.tudelft.cse1110.andy.result.*;
 import nl.tudelft.cse1110.andy.writer.ResultWriter;
 import nl.tudelft.cse1110.andy.writer.standard.CodeSnippetGenerator;
 import nl.tudelft.cse1110.andy.writer.standard.RandomAsciiArtGenerator;
 import nl.tudelft.cse1110.andy.writer.standard.StandardResultWriter;
 import nl.tudelft.cse1110.andy.writer.standard.VersionInformation;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import testutils.ResultTestDataBuilder;
 import nl.tudelft.cse1110.andy.result.Result;
 
 import java.io.File;
@@ -70,8 +67,8 @@ public class OverviewQualityResults extends BaseMetaTestsTest {
      * For an overview of the results. To be used in production only.
      */
     @ParameterizedTest
-    @MethodSource("testSuites")
-    void metaTestQualityIsAcceptable(
+    @MethodSource("domainTestingTestSuites")
+    void metaTestQuality(
             String libraryFile,
             String solutionFile,
             String configurationFile
@@ -85,13 +82,34 @@ public class OverviewQualityResults extends BaseMetaTestsTest {
         System.out.println(output);
     }
 
-    static Stream<Arguments> testSuites() {
+    static Stream<Arguments> domainTestingTestSuites() {
         return Stream.of(
-                Arguments.of("NumberUtilsAddLibrary", "NumberUtilsAddOfficialSolution", "NumberUtilsAddConfiguration")
+                // Arguments.of("NumberUtilsAddLibrary", "NumberUtilsAddOfficialSolution", "NumberUtilsAddConfiguration")
+                // ## Week 1
                 // Arguments.of("ContainsAnyLibrary", "ContainsAnyOfficialSolution", "ContainsAnyConfiguration")
                 // Arguments.of("LastIndexOfLibrary", "LastIndexOfOfficialSolution", "LastIndexOfConfiguration")
                 // Arguments.of("IsSortedLibrary", "IsSortedOfficialSolution", "IsSortedConfiguration")
+                // ## Week 2
+                // Arguments.of("SwapCaseLibrary", "SwapCaseOfficialSolution", "SwapCaseConfiguration")
+                // Arguments.of("RepeatLibrary", "RepeatOfficialSolution", "RepeatConfiguration")
+                // Arguments.of("IntersectionLibrary", "IntersectionOfficialSolution", "IntersectionConfiguration")
+                // Arguments.of("GetCheapestPriceLibrary", "GetCheapestPriceOfficialSolution", "GetCheapestPriceConfiguration")
+                // Arguments.of("IsEqualCollectionLibrary", "IsEqualCollectionOfficialSolution", "IsEqualCollectionConfiguration")
                 // Arguments.of("AutoAssignStudentsLibrary", "AutoAssignStudentsOfficialSolution", "AutoAssignStudentsConfiguration")
+                // ## Week 3
+                // Arguments.of("CountingClumpsLibrary", "CountingClumpsOfficialSolution", "CountingClumpsConfiguration")
+                // Arguments.of("ReplaceLibrary", "ReplaceOfficialSolution", "ReplaceConfiguration")
+                // Arguments.of("ToCamelCaseLibrary", "ToCamelCaseOfficialSolution", "ToCamelCaseConfiguration")
+                // ## Week 4
+                // Arguments.of("BalancingArraysLibrary", "BalancingArraysOfficialSolution", "BalancingArraysConfiguration")
+                // ## Week 5
+                // Arguments.of("CodeSnippetGeneratorLibrary", "CodeSnippetGeneratorOfficialSolution", "CodeSnippetGeneratorConfiguration")
+                // ## Week 6
+                // Arguments.of("SubstringsBetweenLibrary", "SubstringsBetweenOfficialSolution", "SubstringsBetweenConfiguration")
+                // ## Week 7
+                // Arguments.of("ReverseLibrary", "ReverseOfficialSolution", "ReverseConfiguration")
+                // ## Week 8
+                // Arguments.of("ZigZagLibrary", "ZigZagOfficialSolution", "ZigZagConfiguration")
         );
     }
 }

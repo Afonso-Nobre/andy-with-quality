@@ -269,32 +269,32 @@ public class ResultBuilder {
     }
 
     public void logCoveragePerTest(Map<String, Set<Integer>> coveragePerTest) {
-        Map<String, Set<Integer>> coveragePerTestNormalized = new HashMap<>();
-        for (String testName : coveragePerTest.keySet()) {
-            Set<Integer> lines = coveragePerTest.get(testName);
-            coveragePerTestNormalized.put(normalizeName(testName), lines);
-        }
-        this.qualityResult.setCoveragePerTest(coveragePerTestNormalized);
+//        Map<String, Set<Integer>> coveragePerTestNormalized = new HashMap<>();
+//        for (String testName : coveragePerTest.keySet()) {
+//            Set<Integer> lines = coveragePerTest.get(testName);
+//            coveragePerTestNormalized.put(normalizeName(testName), lines);
+//        }
+        this.qualityResult.setCoveragePerTest(coveragePerTest);
     }
 
     public void logMutationsKilledPerTest(Map<String, Set<Integer>> mutationsKilledPerTest) {
-        Map<String, Set<Integer>> mutationsKilledPerTestNormalized = new LinkedHashMap<>();
-        for (String testName : mutationsKilledPerTest.keySet()) {
-            Set<Integer> mutations = mutationsKilledPerTest.get(testName);
-            mutationsKilledPerTestNormalized.put(normalizeName(testName), mutations);
-        }
-        this.qualityResult.setMutationsKilledPerTest(mutationsKilledPerTestNormalized);
+//        Map<String, Set<Integer>> mutationsKilledPerTestNormalized = new LinkedHashMap<>();
+//        for (String testName : mutationsKilledPerTest.keySet()) {
+//            Set<Integer> mutations = mutationsKilledPerTest.get(testName);
+//            mutationsKilledPerTestNormalized.put(normalizeName(testName), mutations);
+//        }
+        this.qualityResult.setMutationsKilledPerTest(mutationsKilledPerTest);
     }
 
     public void logMetaTest(String name, MetaTestReport metaTestReport) {
-        String normalizedName = name;
-        if (name.matches(".* \\(\\d+\\)")) {
-            String method = name.replaceAll(" \\(\\d+\\)$", "").trim();
-            String invocation = name.replaceAll(".* \\((\\d+)\\)$", "#$1").trim();
-            normalizedName =  method + " " + invocation;
-        }
-        metaTestReport.setName(normalizedName);
-        this.qualityResult.considerMetaTest(metaTestReport);
+//        String normalizedName = name;
+//        if (name.matches(".* \\(\\d+\\)")) {
+//            String method = name.replaceAll(" \\(\\d+\\)$", "").trim();
+//            String invocation = name.replaceAll(".* \\((\\d+)\\)$", "#$1").trim();
+//            normalizedName =  method + " " + invocation;
+//        }
+//        metaTestReport.setName(name);
+        this.qualityResult.considerMetaTest(name, metaTestReport);
     }
 
     private String normalizeName(String name) {

@@ -8,7 +8,8 @@ import java.util.stream.Collectors;
 public class QualityResult {
     private int score; // between 0 and 1
     private int numUnitTests;
-    private Map<String, String> unitTests; // uniqueId (testId below) -> displayName
+    private Map<String, String> unitTests; // uniqueId -> displayName
+    private Map<String, String> displayNameToUniqueId;
 
     private LinkedList<MetaTestReport> metaTestReports;
     private Map<String, Set<String>> testToMetaTests; // displayName -> meta-tests
@@ -21,10 +22,11 @@ public class QualityResult {
         this.score = 0;
         this.numUnitTests = numUnitTests;
         unitTests = new HashMap<>();
+        displayNameToUniqueId = new LinkedHashMap<>();
         metaTestReports  = new LinkedList<>();
-        testToMetaTests  = new HashMap<>();
-        coveragePerTest  = new HashMap<>();
-        mutationsKilledPerTest = new HashMap<>();
+        testToMetaTests  = new LinkedHashMap<>();
+        coveragePerTest  = new LinkedHashMap<>();
+        mutationsKilledPerTest = new LinkedHashMap<>();
     }
 
     public static QualityResult build(int score) {
@@ -61,6 +63,18 @@ public class QualityResult {
 
     public void setUnitTests(Map<String, String> unitTests) {
         this.unitTests = unitTests;
+
+        // initialize the map from displayName to uniqueId:
+        for (String uniqueId :  unitTests.keySet()) {
+            displayNameToUniqueId.put(unitTests.get(uniqueId), uniqueId);
+        }
+
+        // initialize other maps:
+        for (String uniqueId :  unitTests.keySet()) {
+            testToMetaTests.put(uniqueId, new HashSet<>());
+            coveragePerTest.put(uniqueId, new HashSet<>());
+            mutationsKilledPerTest.put(uniqueId, new HashSet<>());
+        }
     }
 
     public Map<String, Set<Integer>> getCoveragePerTest() {
@@ -68,7 +82,9 @@ public class QualityResult {
     }
 
     public void setCoveragePerTest(Map<String, Set<Integer>> coveragePerTest) {
-        this.coveragePerTest = coveragePerTest;
+        for (String displayName :  coveragePerTest.keySet()) {
+            this.coveragePerTest.put(displayName, coveragePerTest.get(displayName));
+        }
     }
 
     public Map<String, Set<Integer>> getMutationsKilledPerTest() {
@@ -76,7 +92,9 @@ public class QualityResult {
     }
 
     public void setMutationsKilledPerTest(Map<String, Set<Integer>> mutationsKilledPerTest) {
-        this.mutationsKilledPerTest = mutationsKilledPerTest;
+        for (String displayName :  mutationsKilledPerTest.keySet()) {
+            this.mutationsKilledPerTest.put(displayName, mutationsKilledPerTest.get(displayName));
+        }
     }
 
     @Override
@@ -86,18 +104,18 @@ public class QualityResult {
                 '}';
     }
 
-    public void considerMetaTest(MetaTestReport metaTestReport) {
+    public void considerMetaTest(String metaTestName, MetaTestReport metaTestReport) {
         this.metaTestReports.addFirst(metaTestReport);
 
         for (TestFailureInfo failure : metaTestReport.getTestsTriggered()) {
-            String test = failure.getTestCase();
-            if (test.endsWith("()")) test = test.substring(0, test.length() - 2);
+            String displayName = failure.getTestCase();
+            // if (test.endsWith("()")) test = test.substring(0, test.length() - 2);
 
-            testToMetaTests.computeIfAbsent(test, k -> new HashSet<>());
+            String uniqueId = displayNameToUniqueId.get(displayName);
 
-            String testName = metaTestReport.getName();
+            testToMetaTests.computeIfAbsent(uniqueId, k -> new HashSet<>());
 
-            testToMetaTests.get(test).add(testName);
+            testToMetaTests.get(uniqueId).add(metaTestName);
         }
     }
 

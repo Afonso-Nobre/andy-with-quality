@@ -287,7 +287,7 @@ public class StandardResultWriter implements ResultWriter {
 
         l("\n--- Quality Results");
         l(String.format("Score: %d/100\n", qualityResult.computeScore()));
-        l("Note: this score is based on your cohesion and isolation scores.");
+        l("Note: this score is based on your cohesion and isolation scores.\n");
 
         if (allHints) {
             long allTests = qualityResult.countTests();

@@ -287,12 +287,13 @@ public class StandardResultWriter implements ResultWriter {
 
         l("\n--- Quality Results");
         l(String.format("Score: %d/100\n", qualityResult.computeScore()));
+        l("Note: this score is based on your cohesion and isolation scores.");
 
         if (allHints) {
             long allTests = qualityResult.countTests();
             l(String.format("Cohesive tests: %d/%d", qualityResult.countCohesiveTests(), allTests));
             l(qualityResult.listCohesiveTests());
-            l(String.format("Independent tests: %d/%d", qualityResult.countIsolatedTests(), allTests));
+            l(String.format("Isolated tests: %d/%d", qualityResult.countIsolatedTests(), allTests));
             l(qualityResult.listIsolatedTests());
             l(String.format("Contributing tests: %d/%d", qualityResult.countContributingTests(), allTests));
             l(qualityResult.listContributingTests());

@@ -3,6 +3,7 @@ package nl.tudelft.cse1110.andy.writer.weblab;
 import com.google.gson.Gson;
 import nl.tudelft.cse1110.andy.execution.Context.Context;
 import nl.tudelft.cse1110.andy.result.CompilationErrorInfo;
+import nl.tudelft.cse1110.andy.result.QualityResult;
 import nl.tudelft.cse1110.andy.result.Result;
 import nl.tudelft.cse1110.andy.utils.FilesUtils;
 import nl.tudelft.cse1110.andy.writer.standard.CodeSnippetGenerator;
@@ -70,7 +71,7 @@ public class WebLabResultWriter extends StandardResultWriter {
 
         appendTestSuiteElement(passedCount, failedCount, doc, testSuitesElement);
         appendMetaScoreElements(result, doc, testSuitesElement);
-        // APPEND QUALITY SCORE ELEMENTS
+        appendQualityElements(result.getQualityResult(), doc, testSuitesElement);
 
         return buildXmlStringFromDocument(doc);
     }
@@ -99,10 +100,6 @@ public class WebLabResultWriter extends StandardResultWriter {
         appendMetaScore(doc, metaElement, "Mutation coverage", result.getMutationTesting().getKilledMutants());
         appendMetaScore(doc, metaElement, "Code checks", result.getCodeChecks().getNumberOfPassedChecks());
         appendMetaScore(doc, metaElement, "Meta tests", result.getMetaTests().getPassedMetaTests());
-        appendMetaScore(doc, metaElement, "Quality score", result.getQualityResult().computeScore());
-        appendMetaScore(doc, metaElement, "Cohesive tests", (int) result.getQualityResult().countCohesiveTests());
-        appendMetaScore(doc, metaElement, "Independent tests", (int) result.getQualityResult().countIsolatedTests());
-        appendMetaScore(doc, metaElement, "Contributing tests", (int) result.getQualityResult().countContributingTests());
 
         // Existing code checks and meta tests
         result.getCodeChecks().getCheckResults().forEach(check -> appendMetaScore(doc, metaElement, check.getDescription(), check.passed() ? 1 : 0));
@@ -118,6 +115,18 @@ public class WebLabResultWriter extends StandardResultWriter {
         scoreElement.setAttribute("id", id);
         scoreElement.setTextContent(String.valueOf(value));
         metaElement.appendChild(scoreElement);
+    }
+
+    private static void appendQualityElements(QualityResult qualityResult, Document doc, Element testSuitesElement) {
+        Element qualityElement = doc.createElement("quality");
+
+        appendMetaScore(doc, qualityElement, "Score", qualityResult.getScore());
+        appendMetaScore(doc, qualityElement, "Number of unit tests", (int) qualityResult.countTests());
+        appendMetaScore(doc, qualityElement, "Cohesive tests", (int) qualityResult.countCohesiveTests());
+        appendMetaScore(doc, qualityElement, "Isolated tests", (int) qualityResult.countIsolatedTests());
+        appendMetaScore(doc, qualityElement, "Contributing tests", (int) qualityResult.countContributingTests());
+
+        testSuitesElement.appendChild(qualityElement);
     }
 
     private static String buildXmlStringFromDocument(Document doc) {

@@ -105,7 +105,7 @@ public class GradeCalculator {
      * @param qualityScore - a dummy score
      * @return the dummy score
      */
-    private float qualityScore(int. qualityScore) {
+    private float qualityScore(int qualityScore) {
         // dummy
         return 1.0f;
     }

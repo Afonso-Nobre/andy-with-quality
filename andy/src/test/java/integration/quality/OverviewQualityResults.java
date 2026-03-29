@@ -84,7 +84,7 @@ public class OverviewQualityResults extends BaseMetaTestsTest {
 
     static Stream<Arguments> domainTestingTestSuites() {
         return Stream.of(
-                Arguments.of("NumberUtilsAddLibrary", "NumberUtilsAddOfficialSolution", "NumberUtilsAddConfiguration")
+                // Arguments.of("NumberUtilsAddLibrary", "NumberUtilsAddOfficialSolution", "NumberUtilsAddConfiguration")
                 // ## Week 1
                 // Arguments.of("ContainsAnyLibrary", "ContainsAnyOfficialSolution", "ContainsAnyConfiguration")
                 // Arguments.of("LastIndexOfLibrary", "LastIndexOfOfficialSolution", "LastIndexOfConfiguration")
@@ -95,7 +95,7 @@ public class OverviewQualityResults extends BaseMetaTestsTest {
                 // Arguments.of("IntersectionLibrary", "IntersectionOfficialSolution", "IntersectionConfiguration")
                 // Arguments.of("GetCheapestPriceLibrary", "GetCheapestPriceOfficialSolution", "GetCheapestPriceConfiguration")
                 // Arguments.of("IsEqualCollectionLibrary", "IsEqualCollectionOfficialSolution", "IsEqualCollectionConfiguration")
-                // Arguments.of("AutoAssignStudentsLibrary", "AutoAssignStudentsOfficialSolution", "AutoAssignStudentsConfiguration")
+                Arguments.of("AutoAssignStudentsLibrary", "AutoAssignStudentsOfficialSolution", "AutoAssignStudentsConfiguration")
                 // ## Week 3
                 // Arguments.of("CountingClumpsLibrary", "CountingClumpsOfficialSolution", "CountingClumpsConfiguration")
                 // Arguments.of("ReplaceLibrary", "ReplaceOfficialSolution", "ReplaceConfiguration")

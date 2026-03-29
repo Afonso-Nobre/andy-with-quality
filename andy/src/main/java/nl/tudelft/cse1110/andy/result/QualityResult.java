@@ -109,7 +109,7 @@ public class QualityResult {
 
         for (TestFailureInfo failure : metaTestReport.getTestsTriggered()) {
             String displayName = failure.getTestCase();
-            // if (test.endsWith("()")) test = test.substring(0, test.length() - 2);
+            if (displayName.endsWith("()")) displayName = displayName.substring(0, displayName.length() - 2);
 
             String uniqueId = displayNameToUniqueId.get(displayName);
 

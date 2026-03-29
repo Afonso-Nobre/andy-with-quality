@@ -66,7 +66,7 @@ public class RunJUnitTestsStep implements ExecutionStep {
             Find the unit tests available for the quality metrics
              */
 
-            Map<String, String> unitTests = new HashMap<>(); // uniqueId -> displayName
+            Map<String, String> unitTests = new LinkedHashMap<>(); // uniqueId -> displayName
 
             launcher.registerTestExecutionListeners(new TestExecutionListener() {
                 @Override

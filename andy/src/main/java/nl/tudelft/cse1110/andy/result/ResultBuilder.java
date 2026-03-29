@@ -261,7 +261,7 @@ public class ResultBuilder {
     }
 
     public void logUnitTests(Map<String, String> unitTests) {
-        Map<String, String> unitTestsNormalized = new HashMap<>();
+        Map<String, String> unitTestsNormalized = new LinkedHashMap<>();
         for (String uniqueId : unitTests.keySet()) {
             unitTestsNormalized.put(uniqueId, normalizeName(uniqueId));
         }
@@ -278,7 +278,7 @@ public class ResultBuilder {
     }
 
     public void logMutationsKilledPerTest(Map<String, Set<Integer>> mutationsKilledPerTest) {
-        Map<String, Set<Integer>> mutationsKilledPerTestNormalized = new HashMap<>();
+        Map<String, Set<Integer>> mutationsKilledPerTestNormalized = new LinkedHashMap<>();
         for (String testName : mutationsKilledPerTest.keySet()) {
             Set<Integer> mutations = mutationsKilledPerTest.get(testName);
             mutationsKilledPerTestNormalized.put(normalizeName(testName), mutations);

@@ -86,7 +86,7 @@ public class RunPitestStep implements ExecutionStep {
 
     private Map<String, Set<Integer>> mutationsKilledPerTest(Context ctx, Map<String, String> tests, String mutationsXml) {
 
-        Map<String, Set<Integer>> result = new HashMap<>();
+        Map<String, Set<Integer>> result = new LinkedHashMap<>();
         for (String test : tests.keySet()) result.put(test, new HashSet<>());
 
         Path mutationsFile = Paths.get(

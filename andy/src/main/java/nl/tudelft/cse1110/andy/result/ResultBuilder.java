@@ -261,7 +261,7 @@ public class ResultBuilder {
     }
 
     public void logUnitTests(Map<String, String> unitTests) {
-        Map<String, String> unitTestsNormalized = new HashMap<>();
+        Map<String, String> unitTestsNormalized = new LinkedHashMap<>();
         for (String uniqueId : unitTests.keySet()) {
             unitTestsNormalized.put(uniqueId, normalizeName(uniqueId));
         }
@@ -269,32 +269,15 @@ public class ResultBuilder {
     }
 
     public void logCoveragePerTest(Map<String, Set<Integer>> coveragePerTest) {
-        Map<String, Set<Integer>> coveragePerTestNormalized = new HashMap<>();
-        for (String testName : coveragePerTest.keySet()) {
-            Set<Integer> lines = coveragePerTest.get(testName);
-            coveragePerTestNormalized.put(normalizeName(testName), lines);
-        }
-        this.qualityResult.setCoveragePerTest(coveragePerTestNormalized);
+        this.qualityResult.setCoveragePerTest(coveragePerTest);
     }
 
     public void logMutationsKilledPerTest(Map<String, Set<Integer>> mutationsKilledPerTest) {
-        Map<String, Set<Integer>> mutationsKilledPerTestNormalized = new HashMap<>();
-        for (String testName : mutationsKilledPerTest.keySet()) {
-            Set<Integer> mutations = mutationsKilledPerTest.get(testName);
-            mutationsKilledPerTestNormalized.put(normalizeName(testName), mutations);
-        }
-        this.qualityResult.setMutationsKilledPerTest(mutationsKilledPerTestNormalized);
+        this.qualityResult.setMutationsKilledPerTest(mutationsKilledPerTest);
     }
 
     public void logMetaTest(String name, MetaTestReport metaTestReport) {
-        String normalizedName = name;
-        if (name.matches(".* \\(\\d+\\)")) {
-            String method = name.replaceAll(" \\(\\d+\\)$", "").trim();
-            String invocation = name.replaceAll(".* \\((\\d+)\\)$", "#$1").trim();
-            normalizedName =  method + " " + invocation;
-        }
-        metaTestReport.setName(normalizedName);
-        this.qualityResult.considerMetaTest(metaTestReport);
+        this.qualityResult.considerMetaTest(name, metaTestReport);
     }
 
     private String normalizeName(String name) {
@@ -302,7 +285,7 @@ public class ResultBuilder {
 
         // @Test
         if (name.contains("method:")) {
-            normalizedName = name.split("method:")[1].split("\\(")[0];
+            normalizedName = name.split("method:")[1].split("\\(")[0] +"()";
         }
         // @ParameterizedTest
         if (name.contains("test-template:")) {

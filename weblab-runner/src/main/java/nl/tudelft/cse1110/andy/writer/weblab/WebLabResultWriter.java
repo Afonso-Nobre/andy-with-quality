@@ -70,6 +70,7 @@ public class WebLabResultWriter extends StandardResultWriter {
 
         appendTestSuiteElement(passedCount, failedCount, doc, testSuitesElement);
         appendMetaScoreElements(result, doc, testSuitesElement);
+        // APPEND QUALITY SCORE ELEMENTS
 
         return buildXmlStringFromDocument(doc);
     }

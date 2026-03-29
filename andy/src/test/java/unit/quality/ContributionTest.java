@@ -28,8 +28,7 @@ public class ContributionTest {
 
         TestFailureInfo failure = new TestFailureInfo("test1", "error");
         MetaTestReport report = new MetaTestReport(1, 1, 1, List.of(failure));
-        report.setName("meta-test1");
-        qualityResult.considerMetaTest(report);
+        qualityResult.considerMetaTest("meta-test1", report);
 
         assertEquals(1, qualityResult.countContributingTests());
     }
@@ -59,10 +58,9 @@ public class ContributionTest {
 
         TestFailureInfo failure = new TestFailureInfo("test1", "error");
         MetaTestReport report = new MetaTestReport(1, 1, 1, List.of(failure));
-        report.setName("meta-test1");
-        qualityResult.considerMetaTest(report);
-        qualityResult.setCoveragePerTest(Map.of("test1", Set.of(10)));
-        qualityResult.setMutationsKilledPerTest(Map.of("test1", Set.of(1)));
+        qualityResult.considerMetaTest("meta-test1", report);
+        qualityResult.setCoveragePerTest(Map.of("id1", Set.of(10)));
+        qualityResult.setMutationsKilledPerTest(Map.of("id1", Set.of(1)));
 
         // still counts as 1 contributing test, not 3
         assertEquals(1, qualityResult.countContributingTests());
@@ -75,8 +73,7 @@ public class ContributionTest {
 
         TestFailureInfo failure = new TestFailureInfo("test1", "error");
         MetaTestReport report = new MetaTestReport(1, 1, 1, List.of(failure));
-        report.setName("meta-test1");
-        qualityResult.considerMetaTest(report);
+        qualityResult.considerMetaTest("meta-test1", report);
         qualityResult.setCoveragePerTest(Map.of("test2", Set.of(10)));
         qualityResult.setMutationsKilledPerTest(Map.of("test3", Set.of(1)));
 

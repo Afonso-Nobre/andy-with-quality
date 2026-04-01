@@ -1,5 +1,6 @@
 package nl.tudelft.cse1110.andy.result;
 
+import net.jqwik.api.Tuple;
 import nl.tudelft.cse1110.andy.execution.metatest.MetaTestReport;
 
 import java.util.*;
@@ -109,7 +110,6 @@ public class QualityResult {
 
         for (TestFailureInfo failure : metaTestReport.getTestsTriggered()) {
             String displayName = failure.getTestCase();
-            // if (displayName.endsWith("()")) displayName = displayName.substring(0, displayName.length() - 2);
 
             String uniqueId = displayNameToUniqueId.get(displayName);
 
@@ -153,17 +153,26 @@ public class QualityResult {
 
     /**
      * Count the number of tests that do not trigger meta-tests already covered by other tests
+     * AND trigger more than one meta-test
      * @return the number of such tests
      */
     public long countIsolatedTests() {
 
+        // tests that trigger no meta-tests
+        for (String test :  testToMetaTests.keySet()) {
+            if (testToMetaTests.get(test).isEmpty()) {
+                String displayName = unitTests.get(test);
+                nonisolatedTests.put(displayName, new HashSet<>());
+            }
+        }
+
+        // tests that trigger meta-tests triggered by other tests
         for (MetaTestReport metaTestReport : metaTestReports) {
             if (metaTestReport.getTestsTriggered().size() == 1) continue;
 
-            // All tests that trigger this meta-test collide with each other
+            // all tests that trigger this meta-test collide with each other
             List<String> collidingTests = metaTestReport.getTestsTriggered().stream()
                     .map(TestFailureInfo::getTestCase)
-                    // .map(test -> test.endsWith("()") ? test.substring(0, test.length() - 2) : test)
                     .toList();
 
             for (String test : collidingTests) {
@@ -238,7 +247,7 @@ public class QualityResult {
      * @return a list of cohesive and non-cohesive tests
      */
     public String listCohesiveTests() {
-        StringBuilder sb = new StringBuilder("Tests that only cover a single meta-test: \n");
+        StringBuilder sb = new StringBuilder("Tests that only trigger a single meta-test: \n");
 
         for (String uniqueId : unitTests.keySet()) {
             String displayName = unitTests.get(uniqueId);
@@ -259,13 +268,16 @@ public class QualityResult {
      */
     public String listIsolatedTests() {
 
-        StringBuilder sb = new StringBuilder("Tests that do not trigger meta-tests already covered by other tests: \n");
+        StringBuilder sb = new StringBuilder("Tests that do not trigger meta-tests already covered by other tests (and trigger at least one meta-test): \n");
 
         for (String uniqueId : unitTests.keySet()) {
             String displayName = unitTests.get(uniqueId);
             if (nonisolatedTests.containsKey(displayName)) {
                 sb.append("  > " + displayName + " ✕ - ");
                 Set<String> collisions =  nonisolatedTests.get(displayName);
+                if (collisions.isEmpty()) {
+                    sb.append("this test triggers no meta-tests");
+                }
                 for (String collision : collisions) {
                     sb.append(collision + "; ");
                 }
@@ -284,7 +296,7 @@ public class QualityResult {
      */
     public String listContributingTests() {
 
-        StringBuilder sb = new StringBuilder("Tests that increase a metric: \n");
+        StringBuilder sb = new StringBuilder("Tests that increase a metric (meta-tests, coverage or mutation): \n");
 
         for (String uniqueId : unitTests.keySet()) {
             String displayName = unitTests.get(uniqueId);

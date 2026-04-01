@@ -162,7 +162,7 @@ public class QualityResult {
         for (String test :  testToMetaTests.keySet()) {
             if (testToMetaTests.get(test).isEmpty()) {
                 String displayName = unitTests.get(test);
-                nonisolatedTests.put(displayName, new HashSet<>());
+                nonisolatedTests.put(displayName, Set.of("this test triggers no meta-tests"));
             }
         }
 
@@ -275,9 +275,6 @@ public class QualityResult {
             if (nonisolatedTests.containsKey(displayName)) {
                 sb.append("  > " + displayName + " ✕ - ");
                 Set<String> collisions =  nonisolatedTests.get(displayName);
-                if (collisions.isEmpty()) {
-                    sb.append("this test triggers no meta-tests");
-                }
                 for (String collision : collisions) {
                     sb.append(collision + "; ");
                 }

@@ -93,8 +93,8 @@ public class OverviewQualityResults extends BaseMetaTestsTest {
                 // Arguments.of("SwapCaseLibrary", "SwapCaseOfficialSolution", "SwapCaseConfiguration")
                 // Arguments.of("RepeatLibrary", "RepeatOfficialSolution", "RepeatConfiguration")
                 // Arguments.of("IntersectionLibrary", "IntersectionOfficialSolution", "IntersectionConfiguration")
-                // Arguments.of("GetCheapestPriceLibrary", "GetCheapestPriceOfficialSolution", "GetCheapestPriceConfiguration")
-                Arguments.of("IsEqualCollectionLibrary", "IsEqualCollectionOfficialSolution", "IsEqualCollectionConfiguration")
+                Arguments.of("GetCheapestPriceLibrary", "GetCheapestPriceOfficialSolution", "GetCheapestPriceConfiguration")
+                // Arguments.of("IsEqualCollectionLibrary", "IsEqualCollectionOfficialSolution", "IsEqualCollectionConfiguration")
                 // Arguments.of("AutoAssignStudentsLibrary", "AutoAssignStudentsOfficialSolution", "AutoAssignStudentsConfiguration")
                 // ## Week 3
                 // Arguments.of("CountingClumpsLibrary", "CountingClumpsOfficialSolution", "CountingClumpsConfiguration")

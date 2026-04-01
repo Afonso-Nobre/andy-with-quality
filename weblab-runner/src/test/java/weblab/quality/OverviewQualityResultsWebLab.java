@@ -85,7 +85,7 @@ public class OverviewQualityResultsWebLab extends BaseMetaTestsTest {
             String solutionFile,
             String configurationFile
     ) {
-        Result result = run(libraryFile, solutionFile, configurationFile);
+        Result result = runWithQuality(libraryFile, solutionFile, configurationFile);
 
         writer.write(ctx, result);
 
@@ -95,7 +95,9 @@ public class OverviewQualityResultsWebLab extends BaseMetaTestsTest {
 
     static Stream<Arguments> domainTestingTestSuites() {
         return Stream.of(
-                Arguments.of("NumberUtilsAddLibrary", "NumberUtilsAddOfficialSolution", "NumberUtilsAddConfiguration")
+                Arguments.of("NumberUtilsAddLibrary", "NumberUtilsAddOfficialSolution", "NumberUtilsAddConfiguration"),
+                Arguments.of("IsEqualCollectionLibrary", "IsEqualCollectionOfficialSolution", "IsEqualCollectionConfiguration"),
+                Arguments.of("AutoAssignStudentsLibrary", "AutoAssignStudentsOfficialSolution", "AutoAssignStudentsConfiguration")
         );
     }
 }

@@ -282,9 +282,9 @@ public class StandardResultWriter implements ResultWriter {
         if(!ctx.getModeActionSelector().shouldCheckQuality())
             return;
 
-        l("\n--- Quality Results");
-        l(String.format("Score: %d/100\n", qualityResult.computeScore()));
-        l("Note: this score is based on your cohesion and isolation scores.\n");
+        l("\n--- Quality Results\n");
+//        l(String.format("Score: %d/100\n", qualityResult.computeScore()));
+//        l("Note: this score is based on your cohesion and isolation scores.\n");
 
         long allTests = qualityResult.countTests();
         l(String.format("Cohesive tests: %d/%d", qualityResult.countCohesiveTests(), allTests));

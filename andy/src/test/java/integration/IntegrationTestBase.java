@@ -16,6 +16,8 @@ import org.junit.jupiter.api.AfterEach;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardCopyOption.*;
 import java.util.List;
 
 import static nl.tudelft.cse1110.andy.utils.ResourceUtils.resourceFolder;
@@ -125,6 +127,14 @@ public abstract class IntegrationTestBase {
 
         copiedLibrary.renameTo(new File(copiedLibrary.getParentFile() + "/Library.java"));
         copiedSolution.renameTo(new File(copiedSolution.getParentFile() + "/Solution.java"));
+//        try {
+//            Files.move(copiedLibrary.toPath().toFile(),
+//                    copiedLibrary.toPath().resolveSibling("Library.java").toFile());
+//            Files.move(copiedSolution.toPath().toFile(),
+//                    copiedSolution.toPath().resolveSibling("Solution.java").toFile());
+//        } catch (IOException e) {
+//            throw new RuntimeException("Failed to rename copied files", e);
+//        }
     }
 
     protected void copyConfigurationFile(String configurationFile) {
@@ -137,6 +147,12 @@ public abstract class IntegrationTestBase {
         File copied = FilesUtils.copyFile(config.getAbsolutePath(), workDir.toString()).toFile();
 
         copied.renameTo(new File(copied.getParentFile() + "/Configuration.java"));
+//        try {
+//            Files.move(copied.toPath().toFile(),
+//                    copied.toPath().resolveSibling("Configuration.java").toFile());
+//        } catch (IOException e) {
+//            throw new RuntimeException("Failed to rename configuration file", e);
+//        }
     }
 
 }

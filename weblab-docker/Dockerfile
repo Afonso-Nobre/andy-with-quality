@@ -17,7 +17,7 @@ RUN apt update \
 SHELL ["/bin/bash", "-c"]
 
 ARG ANDY_DIR=/home/andy/
-ARG ANDY_REPO=SERG-Delft/andy
+ARG ANDY_REPO=Afonso-Nobre/andy-with-quality
 ARG ANDY_BRANCH=main
 
 # Prevent Docker from using an old version of the branch from cache

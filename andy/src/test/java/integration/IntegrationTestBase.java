@@ -92,6 +92,10 @@ public abstract class IntegrationTestBase {
         return this.run(Action.FULL_WITH_HINTS, libraryFile, solutionFile, configurationFile);
     }
 
+    public Result runOnlyTests(String libraryFile, String solutionFile, String configurationFile) {
+        return this.run(Action.TESTS, libraryFile, solutionFile, configurationFile);
+    }
+
     public Result runWithQuality(String libraryFile, String solutionFile, String configurationFile) {
         return this.run(Action.QUALITY, libraryFile, solutionFile, configurationFile);
     }

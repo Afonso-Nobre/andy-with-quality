@@ -18,6 +18,10 @@ public class QualityResult {
     private Map<String, Set<Integer>> coveragePerTest; // displayName -> linesCovered
     private Map<String, Set<Integer>> mutationsKilledPerTest; // displayName -> mutationId
 
+    private long cohesionScore;
+    private long isolationScore;
+    private long contributionScore;
+
     public QualityResult(int numUnitTests) {
         // dummy:
         this.score = 0;
@@ -28,6 +32,9 @@ public class QualityResult {
         testToMetaTests  = new LinkedHashMap<>();
         coveragePerTest  = new LinkedHashMap<>();
         mutationsKilledPerTest = new LinkedHashMap<>();
+        cohesionScore = 0;
+        isolationScore = 0;
+        contributionScore = 0;
     }
 
     public static QualityResult build(int score) {
@@ -98,6 +105,10 @@ public class QualityResult {
         }
     }
 
+    public boolean wasExecuted() {
+        return cohesionScore != 0 || isolationScore != 0 || contributionScore != 0;
+    }
+
     @Override
     public String toString() {
         return "QualityResult{" +
@@ -145,7 +156,8 @@ public class QualityResult {
      * @return the number of such tests
      */
     public long countCohesiveTests() {
-        return testToMetaTests.values().stream().filter(nt -> nt.size() == 1).count();
+        cohesionScore = testToMetaTests.values().stream().filter(nt -> nt.size() == 1).count();
+        return cohesionScore;
     }
 
     @SuppressWarnings("checkstyle:DeclarationOrder")
@@ -189,7 +201,8 @@ public class QualityResult {
             if (!collisions.isEmpty()) count--;
         }
 
-        return count;
+        isolationScore = count;
+        return isolationScore;
     }
 
     @SuppressWarnings("checkstyle:DeclarationOrder")
@@ -225,7 +238,8 @@ public class QualityResult {
             contributingTests.get(test).add(3);
         }
 
-        return contributingTests.size();
+        contributionScore = contributingTests.size();
+        return contributionScore;
     }
 
     private <T> Set<String> contribution(Map<String, Set<T>> map) {

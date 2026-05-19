@@ -49,7 +49,7 @@ public class WebLabResultWriter extends StandardResultWriter {
 
     private void writeResultsXmlFile(Context ctx, Result result) {
         String xml;
-        if (ctx.getModeActionSelector().shouldCheckQuality()) {
+        if (result.getQualityResult() != null && result.getQualityResult().wasExecuted()) {
             xml = buildResultsXmlWithQuality(result);
         } else {
             xml = buildResultsXml(result);

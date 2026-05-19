@@ -329,7 +329,7 @@ public class ResultBuilder {
 
             if (ctx.getRunConfiguration() != null) {
                 GradeValues grades;
-                if (ctx.getModeActionSelector().shouldCheckQuality()) {
+                if (ctx.getModeActionSelector() != null && ctx.getModeActionSelector().shouldCheckQuality()) {
                     grades = GradeValues.fromResults(coverageResults, codeCheckResults, mutationResults, metaTestResults, penaltyMetaTestResults, penaltyCodeCheckResults, qualityResult);
                 } else {
                     grades = GradeValues.fromResults(coverageResults, codeCheckResults, mutationResults, metaTestResults, penaltyMetaTestResults, penaltyCodeCheckResults);

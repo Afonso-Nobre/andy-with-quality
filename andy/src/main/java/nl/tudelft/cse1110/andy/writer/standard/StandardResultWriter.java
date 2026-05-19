@@ -279,7 +279,7 @@ public class StandardResultWriter implements ResultWriter {
 
     private void printQualityResults(Context ctx, QualityResult qualityResult) {
 
-        if(!ctx.getModeActionSelector().shouldCheckQuality() || !qualityResult.wasExecuted())
+        if(!qualityResult.wasExecuted())
             return;
 
         l("\n--- Quality Results\n");

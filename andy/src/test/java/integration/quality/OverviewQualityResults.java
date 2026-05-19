@@ -73,7 +73,7 @@ public class OverviewQualityResults extends BaseMetaTestsTest {
             String solutionFile,
             String configurationFile
     ) {
-        Result result = runWithQuality(libraryFile, solutionFile, configurationFile);
+        Result result = runOnlyTests(libraryFile, solutionFile, configurationFile);
 
         writer.write(ctx, result);
 

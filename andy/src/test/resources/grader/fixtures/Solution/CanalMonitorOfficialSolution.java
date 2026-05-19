@@ -26,7 +26,7 @@ class CanalMonitorTest {
     // null readings throws
     void nullReadings() {
         assertThrows(IllegalArgumentException.class,
-                () -> CanalMonitor.classifyCanalReadings(null, 100, false))
+                () -> CanalMonitor.classifyCanalReadings(null, 100, false));
     }
 
     @Test
